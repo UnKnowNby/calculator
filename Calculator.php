@@ -5,19 +5,37 @@
  */
 class Calculator
 {
-    const PRICE_FIRST = 100; //Первая стоимость за 1 километр
-    const PRICE_SECOND  = 80; //Вторая стоимость за 1 километр
-    const PRICE_LAST = 70; //Третья стоимость за 1 километр
+    /**
+     * @var int Первая стоимость за 1 километр
+     */
+    public $priceFirst = 100;
 
-    const MAX_DISTANCE_FIRST = 100; //Первый потолок дистанции
-    const MAX_DISTANCE_SECOND = 300; //Второй потолок дистанции
+    /**
+     * @var int Вторая стоимость за 1 километр
+     */
+    public $priceSecond = 80;
+
+    /**
+     * @var int Третья стоимость за 1 километр
+     */
+    public $priceThird = 70;
+
+    /**
+     * @var int Первый потолок дистанции
+     */
+    public $maxDistanceFirst = 100;
+
+    /**
+     * @var int Второй потолок дистанции
+     */
+    public $maxDistanceSecond = 300;
 
     /**
      * Получение полной стоимости за первую дистанцию
      * @return int Стоимость в рублях
      */
     private function getDefaultCoastOver100(): int {
-        return self::MAX_DISTANCE_FIRST * self::PRICE_FIRST;
+        return $this->maxDistanceFirst * $this->priceFirst;
     }
 
     /**
@@ -25,7 +43,7 @@ class Calculator
      * @return int Стоимость в рублях
      */
     private function getDefaultCoastOver300(): int {
-        return (self::MAX_DISTANCE_SECOND - self::MAX_DISTANCE_FIRST) * self::PRICE_SECOND + $this->getDefaultCoastOver100();
+        return ($this->maxDistanceSecond - $this->maxDistanceFirst) * $this->priceSecond + $this->getDefaultCoastOver100();
     }
 
     /**
@@ -34,12 +52,12 @@ class Calculator
      * @return int Стоимость услуг в рублях
      */
     public function calculate(int $distance): int {
-        if ($distance > self::MAX_DISTANCE_SECOND) {
-            $cost = ($distance - self::MAX_DISTANCE_SECOND) * self::PRICE_LAST + $this->getDefaultCoastOver300();
-        } else if ($distance > self::MAX_DISTANCE_FIRST && $distance <= self::MAX_DISTANCE_SECOND) {
-            $cost = ($distance - self::MAX_DISTANCE_FIRST) * self::PRICE_SECOND + $this->getDefaultCoastOver100();
+        if ($distance > $this->maxDistanceSecond) {
+            $cost = ($distance - $this->maxDistanceSecond) * $this->priceThird + $this->getDefaultCoastOver300();
+        } else if ($distance > $this->maxDistanceFirst && $distance <= $this->maxDistanceSecond) {
+            $cost = ($distance - $this->maxDistanceFirst) * $this->priceSecond + $this->getDefaultCoastOver100();
         } else {
-            $cost = $distance * self::PRICE_FIRST;
+            $cost = $distance * $this->priceFirst;
         }
 
         return $cost;
